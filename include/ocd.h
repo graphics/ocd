@@ -29,12 +29,13 @@
 
 /****** Bits 31-24 are the vendor ID. The other 24 are vendor defined. ******/
 #define OCDFMTDEF_VENDOR_SHIFT 24
+#define OCDFMTDEF_VENDOR_MASK (0xFF << OCDFMTDEF_VENDOR_SHIFT)
+
 #define OCDFMTDEF_VENDOR_ALL \
 	(0x00 << OCDFMTDEF_VENDOR_SHIFT) /* Common format */
 #define OCDFMTDEF_VENDOR_TI  \
 	(0x01 << OCDFMTDEF_VENDOR_SHIFT) /* Texas Instruments, Inc. */
 /* 0xF0-0xFF reserved */
-#define OCDFMTDEF_VENDOR_MASK (0xFF << OCDFMTDEF_VENDOR_SHIFT)
 
 /***** OCDFMTDEF_VENDOR_ALL *****/
 /* The formats in this group are created using combinations of the values
@@ -72,6 +73,8 @@
 
 /**** Bits 23-21 define the color space. ****/
 #define OCDFMTDEF_CS_SHIFT 21
+#define OCDFMTDEF_CS_MASK (7 << OCDFMTDEF_CS_SHIFT)
+
 #define OCDFMTDEF_CS_MONO \
 	(0 << OCDFMTDEF_CS_SHIFT) /* Monochrome (luma only) */
 #define OCDFMTDEF_CS_LUT \
@@ -85,10 +88,11 @@
 /* 5 reserved */
 /* 6 reserved */
 /* 7 reserved */
-#define OCDFMTDEF_CS_MASK (7 << OCDFMTDEF_CS_SHIFT)
 
 /**** Bits 20-19 define the standard ****/
 #define OCDFMTDEF_STD_SHIFT 9
+#define OCDFMTDEF_STD_MASK (3 << OCDFMTDEF_STD_SHIFT)
+
 #define OCDFMTDEF_STD_ITUR_601_YCbCr \
 	(0 << OCDFMTDEF_STD_SHIFT) /* ITU-R BT.601 - YCbCr only */
 /* 0 default for non-YCbCr */
@@ -100,7 +104,6 @@
 	(3 << OCDFMTDEF_STD_SHIFT) /* RGB 0 to 255 =>
 				      YCbCr 0 to 255, -128 to 127 */
 /* 3 reserved for non-YCbCr */
-#define OCDFMTDEF_STD_MASK (3 << OCDFMTDEF_STD_SHIFT)
 
 /**** Bits 18-16 are component modifiers for non-alpha c/s only ****/
 #define OCDFMTDEF_ALPHA	\
@@ -119,14 +122,17 @@
 /* Bit 18 is reserved */
 /*** Bits 17-16 define the number of alpha components for alpha c/s ***/
 #define OCDFMTDEF_ALPHA_COMPONENTS_SHIFT 16
+#define OCDFMTDEF_ALPHA_COMPONENTS_MASK (3 << OCDFMTDEF_ALPHA_COMPONENTS_SHIFT)
+
 #define OCDFMTDEF_ALPHA_COMPONENTS_1 (0 << OCDFMTDEF_ALPHA_COMPONENTS_SHIFT)
 #define OCDFMTDEF_ALPHA_COMPONENTS_2 (1 << OCDFMTDEF_ALPHA_COMPONENTS_SHIFT)
 #define OCDFMTDEF_ALPHA_COMPONENTS_3 (2 << OCDFMTDEF_ALPHA_COMPONENTS_SHIFT)
 #define OCDFMTDEF_ALPHA_COMPONENTS_4 (3 << OCDFMTDEF_ALPHA_COMPONENTS_SHIFT)
-#define OCDFMTDEF_ALPHA_COMPONENTS_MASK (3 << OCDFMTDEF_ALPHA_COMPONENTS_SHIFT)
 
 /**** Bits 15-14 define subsampling ****/
 #define OCDFMTDEF_SUBSAMPLE_SHIFT 14
+#define OCDFMTDEF_SUBSAMPLE_MASK	(3 << OCDFMTDEF_SUBSAMPLE_SHIFT)
+
 #define OCDFMTDEF_SUBSAMPLE_NONE \
 	(0 << OCDFMTDEF_SUBSAMPLE_SHIFT) /* No subsampling;
 					    each pixel has each component */
@@ -151,11 +157,12 @@
 					    shares one Cb and Cr (chroma)
 					    component. */
 /* 3 reserved for non-YCbCr */
-#define OCDFMTDEF_SUBSAMPLE_MASK	(3 << OCDFMTDEF_SUBSAMPLE_SHIFT)
 
 /**** Bits 13-11 define the memory layout
       (combined with _REVERSED and _LEFT_JUSTIFIED) ****/
 #define OCDFMTDEF_LAYOUT_SHIFT 11
+#define OCDFMTDEF_LAYOUT_MASK (7 << OCDFMTDEF_LAYOUT_SHIFT)
+
 #define OCDFMTDEF_PACKED \
 	(0 << OCDFMTDEF_LAYOUT_SHIFT) /* Components interleaved together */
 #define OCDFMTDEF_DISTRIBUTED \
@@ -184,7 +191,6 @@
 					 side-by-side in memory (interleaved
 					 on a line-by-line basis. */
 /* 7 reserved for non-YCbCr */
-#define OCDFMTDEF_LAYOUT_MASK (7 << OCDFMTDEF_LAYOUT_SHIFT)
 
 /**** Bits 10-9 are layout modifiers. ****/
 #define OCDFMTDEF_REVERSED \
@@ -196,6 +202,8 @@
 
 /**** Bits 6-8 specify the container type. ****/
 #define OCDFMTDEF_CONTAINER_SHIFT 6
+#define OCDFMTDEF_CONTAINER_MASK (7 << OCDFMTDEF_CONTAINER_SHIFT)
+
 #define OCDFMTDEF_CONTAINER_8BIT  (0 << OCDFMTDEF_CONTAINER_SHIFT)
 #define OCDFMTDEF_CONTAINER_16BIT (1 << OCDFMTDEF_CONTAINER_SHIFT)
 #define OCDFMTDEF_CONTAINER_24BIT (2 << OCDFMTDEF_CONTAINER_SHIFT)
@@ -204,7 +212,6 @@
 #define OCDFMTDEF_CONTAINER_48BIT (5 << OCDFMTDEF_CONTAINER_SHIFT)
 /* 6 (0x00C000) reserved */
 #define OCDFMTDEF_CONTAINER_64BIT (7 << OCDFMTDEF_CONTAINER_SHIFT)
-#define OCDFMTDEF_CONTAINER_MASK (7 << OCDFMTDEF_CONTAINER_SHIFT)
 
 /**** Bits 0-5 contain the total number of component bits minus one. ****/
 /* To calculate the number of bits for each RGBA component, use the following
