@@ -58,11 +58,11 @@
  *    |      |  |  |  |  |  |
  *    |      |  |  |  |  | subsampling
  *    |      |  |  |  |  |
- *    |      |  |  |  | subsample position
- *    |      |  |  |  |
- *    |      |  |  | non-premult/fill empty 1 \
- *    |      |  |  |			       > alpha components
- *    |      |  | alpha			      /
+ *    |      |  |  |  | subsample position     \
+ *    |      |  |  |  |			       |
+ *    |      |  |  | non-premult/fill empty 1	> alpha components
+ *    |      |  |  |			       |
+ *    |      |  | alpha			       /
  *    |      |  |
  *    |      | standard
  *    |      |
@@ -82,7 +82,7 @@
 #define OCDFMTDEF_CS_RGB \
 	(2 << OCDFMTDEF_CS_SHIFT) /* Red, green, blue */
 #define OCDFMTDEF_CS_YCbCr \
-	(3 << OCDFMTDEF_CS_SHIFT) /* YCbCr (YCbCr) (luma & chroma) */
+	(3 << OCDFMTDEF_CS_SHIFT) /* YCbCr (YUV) (luma & chroma) */
 #define OCDFMTDEF_CS_ALPHA \
 	(4 << OCDFMTDEF_CS_SHIFT) /* Alpha only (transparency) */
 /* 5 reserved */
@@ -665,22 +665,22 @@ enum ocdformat {
 			OCDFMTDEF_STD_ITUR_709_YCbCr,
 
   /* YCbCr 4:2:0 */
-	OCDFMT_IYCbCr =	OCDFMTDEF_VENDOR_ALL |
+	OCDFMT_IYUV =	OCDFMTDEF_VENDOR_ALL |
 			OCDFMTDEF_CS_YCbCr |
 			OCDFMTDEF_SUBSAMPLE_420_YCbCr |
 			OCDFMTDEF_SUBSAMPLE_HORZ_ALIGNED |
 			OCDFMTDEF_3_PLANE_STACKED |
 			OCDFMTDEF_CONTAINER_48BIT |
 			(12 - 1),
-	OCDFMT_IYCbCr_601 = OCDFMT_IYCbCr |
+	OCDFMT_IYUV_601 = OCDFMT_IYUV |
 			OCDFMTDEF_STD_ITUR_601_YCbCr,
-	OCDFMT_IYCbCr_709 = OCDFMT_IYCbCr |
+	OCDFMT_IYUV_709 = OCDFMT_IYUV |
 			OCDFMTDEF_STD_ITUR_709_YCbCr,
-	OCDFMT_I420 = OCDFMT_IYCbCr,
-	OCDFMT_I420_601 = OCDFMT_IYCbCr_601,
-	OCDFMT_I420_709 = OCDFMT_IYCbCr_709,
+	OCDFMT_I420 = OCDFMT_IYUV,
+	OCDFMT_I420_601 = OCDFMT_IYUV_601,
+	OCDFMT_I420_709 = OCDFMT_IYUV_709,
 
-	OCDFMT_YV12 =	OCDFMT_IYCbCr |
+	OCDFMT_YV12 =	OCDFMT_IYUV |
 			OCDFMTDEF_REVERSED,
 	OCDFMT_YV12_601 = OCDFMT_YV12 |
 			OCDFMTDEF_STD_ITUR_601_YCbCr,
