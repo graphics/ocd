@@ -76,7 +76,7 @@ a { }
 <table style="width: 100%; line-height: 100%;">
 				<tr>
 								<td style="width: 484px">
-<img alt="" src="ocdlogo.png"/></td>
+<img alt="" src="ocdlogo.jpg"/></td>
 								<td>
 								<p>OCD is a set of Open Color format Definitions.</p>
 <p>Color formats are used in everything from BLTers to video codecs, and from cameras to displays.&nbsp; But although 
@@ -217,8 +217,7 @@ supported.</p>
 Vertical subsampling positions are consistent, so the following are supported to 
 control the horizontal subsampling position:</p>
 <ul>
-				<li><span class="inline_code">OCDFMTDEF_SUBSAMPLE_HORZ_ALIGNED
-				</span>- subsamples are aligned with first pixel (e.g. MPEG-2 
+				<li><span class="inline_code">OCDFMTDEF_SUBSAMPLE_HORZ_ALIGNED 				</span>- subsamples are aligned with first pixel (e.g. MPEG-2 
 				spec)</li>
 				<li><span class="inline_code">OCDFMTDEF_SUBSAMPLE_HORZ_CENTERED
 				</span>- subsamples are centered between the pixels (e.g. MPEG-1 
@@ -232,15 +231,14 @@ complete failure.</p>
 spaces, the alpha color space can have more than one alpha value per pixel.&nbsp; 
 This field specifies how many:</p>
 <ul>
-				<li><span class="inline_code">OCDFMTDEF_ALPHA_COMPONENTS_1
-				</span>- pixel contains 1 alpha value (default)</li>
+				<li><span class="inline_code">OCDFMTDEF_ALPHA_COMPONENTS_1 				</span>- pixel contains 1 alpha value (default)</li>
 				<li><span class="inline_code">OCDFMTDEF_ALPHA_COMPONENTS_2
 				</span>- pixel contains 2 alpha values</li>
 				<li><span class="inline_code">OCDFMTDEF_ALPHA_COMPONENTS_3
 				</span>- pixel contains 3 alpha values; suitable for RGB 
 				manipulation (e.g. FreeType/ClearType)</li>
 				<li><span class="inline_code">OCDFMTDEF_ALPHA_COMPONENTS_4
-				</span>- pixel contains 4 alpha values</li>
+				</span>-- pixel contains 4 alpha values</li>
 </ul>
 <p class="Header3">Layout (RGB, YCbCr)</p>
 <p>The layout values, in conjunction with the reversed and left-justified 
@@ -361,7 +359,7 @@ if it is present.</p>
 				available to be used as an alpha channel.</li>
 </ul>
 <p class="Header3">Component Size (All)</p>
-<p>The component size field specifies the total number of bits in the color 
+<p>TThe component size field specifies the total number of bits in the color 
 components, not including the alpha component.&nbsp; (It is specified in the 
 code with one subtracted.)</p>
 </body>
