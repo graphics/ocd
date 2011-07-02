@@ -38,6 +38,8 @@ a { }
 				background: #000;
 				color: #fff;
 				padding: 10px;
+				font-family: "Courier New", Courier, monospace;
+				font-size: small;
 }
 .code_block {
 				margin-left: 40px;
@@ -129,20 +131,33 @@ Attribution-NoDerivs 3.0 Unported License</a>.</p>
 				</tr>
 </table>
 <hr />
+<p class="Header1">Header File</p>
+<p><span class="filename">ocd.h</span> contains the Open Color format Defintions.</p>
 <p class="Header1">How does it work?</p>
-<p>OCD was designed to allow a single 32-bit word (unsigned long) to specify the 
-color format.</p>
+<p>OCD was designed to allow a single 32-bit word (int) to specify the 
+color format.&nbsp; The color format is specified as an enumeration.&nbsp; The 
+enumeration values are constructed using bitfields.</p>
 <p>OCD breaks off a chunk of those 32 bits to specify a vendor ID.&nbsp; With 
 this, OCD can allow vendors with very unique formats to obtain their own vendor 
 ID and specify any of 16 million formats of their own.&nbsp; Minimum sharing 
 here, but maximum flexibility.</p>
-<p>However, the power of OCD lies in the shared vendor ID.&nbsp; The 
+<p class="Code_Header_2">OCDFMTDEF_VENDOR_ALL</p>
+<p>The power of OCD lies in the shared vendor ID.&nbsp; The 
 <span class="inline_code">OCDFMTDEF_VENDOR_ALL</span> vendor ID indicates that the common set of definitions is 
 being used.&nbsp; And this set of definitions is designed to specify pretty much 
 any reasonably common color format in use today.</p>
-<p class="Code_Header_2">OCDFMTDEF_VENDOR_ALL</p>
 <p>When <span class="inline_code">OCDFMTDEF_VENDOR_ALL</span> is chosen, the remaining 24 bits of the format are 
 sub-divided into bitfields used to describe the format.</p>
+<p class="Header2">Predefined VENDOR_ALL Names</p>
+<p>A set of enumeration values are already provided with predefined names.&nbsp; 
+But using the bitfields below, new combinations can be constructed.&nbsp; These 
+combinations are already legal, but they just have not been given names.</p>
+<p>The naming conventions of the predefined formats are based on their byte 
+ordering, so they are not endian-dependent.&nbsp; The exceptions are the 16-bit 
+packed formats, which are little-endian.</p>
+<p class="Header2">VENDOR_ALL Bitfields</p>
+<p>The following bitfields only apply to the <span class="inline_code">
+OCDFMTDEF_VENDOR_ALL</span> color formats. </p>
 <p class="Header3">Color Space</p>
 <p>The first field specifies the color space.&nbsp; Currently there are five 
 color spaces defined, but there is room for three more if the need arises:</p>
@@ -160,16 +175,195 @@ choice.</p>
 <p>This field specifies the standard being used for this color space.</p>
 <p>Currently, this field is only defined for the YCbCr color space:</p>
 <ul>
-				<li>ITU-R BT.601</li>
-				<li>ITU-R BT.709</li>
-				<li>Full Scale</li>
+				<li>ITU-R BT.601 - <span class="inline_code">
+				OCDFMTDEF_STD_ITUR_601_YCbCr</span></li>
+				<li>ITU-R BT.709 - <span class="inline_code">
+				OCDFMTDEF_STD_ITUR_709_YCbCr</span></li>
+				<li>Full Scale - <span class="inline_code">
+				OCDFMTDEF_FULLSCALE_YCbCr</span></li>
 </ul>
 <p>We believe that this field will be used to add linear format support in the 
 very near future.</p>
+<p class="Header3">Fill Empty 1 (Mono, RGB, YCbCr)</p>
+<p>When there is no alpha included with a format, but the color components don&#39;t 
+fill up the container, the remainder of the bits must be filled with something 
+when written.&nbsp; When the <span class="inline_code">OCDFMTDEF_FILL_EMPTY_1</span> 
+flag is not set, they are filled with 0.&nbsp; When the flag is set, they are 
+filled with 1.</p>
 <p class="Header3">Alpha (Mono, RGB, YCbCr)</p>
-<p>This bit indicates that the format includes an alpha channel along with the 
-main color components.</p>
-<p>&nbsp;</p>
+<p>The <span class="inline_code">OCDFMTDEF_ALPHA</span> bit indicates that the 
+format includes an alpha channel along with the main color components.</p>
+<p class="Header3">Non-Premult (Mono, RGB, YCbCr)</p>
+<p>Formats with alpha can have their color components pre-multiplied by the 
+alpha component or not.&nbsp; When the <span class="inline_code">
+OCDFMTDEF_NON_PREMULT</span> bit is set, the color components are not 
+premultiplied by the accompanying alpha.&nbsp; When the bit is not set, the 
+color components are already multiplied by the alpha.</p>
+<p class="Header3">Subsampling (YCbCr)</p>
+<p>Some formats can be subsampled.&nbsp; At this point, only subsampled YCbCr is 
+supported.</p>
+<ul>
+				<li>No subsampling - <span class="inline_code">
+				OCDFMTDEF_SUBSAMPLE_NONE</span></li>
+				<li>4:2:2 subsampling - <span class="inline_code">
+				OCDFMTDEF_SUBSAMPLE_422_YCbCr</span></li>
+				<li>4:2:0 subsampling - <span class="inline_code">
+				OCDFMTDEF_SUBSAMPLE_420_YCbCr</span></li>
+				<li>4:1:1 subsampling - <span class="inline_code">
+				OCDFMTDEF_SUBSAMPLE_411_YCbCr</span></li>
+</ul>
+<p class="Header3">Subsample Position (YCbCr)</p>
+<p>Subsampling can have different equivalent positions relative to the pixels.&nbsp; 
+Vertical subsampling positions are consistent, so the following are supported to 
+control the horizontal subsampling position:</p>
+<ul>
+				<li><span class="inline_code">OCDFMTDEF_SUBSAMPLE_HORZ_ALIGNED
+				</span>- subsamples are aligned with first pixel (e.g. MPEG-2 
+				spec)</li>
+				<li><span class="inline_code">OCDFMTDEF_SUBSAMPLE_HORZ_CENTERED
+				</span>- subsamples are centered between the pixels (e.g. MPEG-1 
+				spec)</li>
+</ul>
+<p>NOTE:&nbsp; It is encouraged that users of OCD be generous when handling 
+subsampling positions.&nbsp; Allowing misaligned subsampling is preferable to 
+complete failure.</p>
+<p class="Header3">Alpha Components (Alpha)</p>
+<p>To support applying alpha values to the individual components of other color 
+spaces, the alpha color space can have more than one alpha value per pixel.&nbsp; 
+This field specifies how many:</p>
+<ul>
+				<li><span class="inline_code">OCDFMTDEF_ALPHA_COMPONENTS_1
+				</span>- pixel contains 1 alpha value (default)</li>
+				<li><span class="inline_code">OCDFMTDEF_ALPHA_COMPONENTS_2
+				</span>- pixel contains 2 alpha values</li>
+				<li><span class="inline_code">OCDFMTDEF_ALPHA_COMPONENTS_3
+				</span>- pixel contains 3 alpha values; suitable for RGB 
+				manipulation (e.g. FreeType/ClearType)</li>
+				<li><span class="inline_code">OCDFMTDEF_ALPHA_COMPONENTS_4
+				</span>- pixel contains 4 alpha values</li>
+</ul>
+<p class="Header3">Layout (RGB, YCbCr)</p>
+<p>The layout values, in conjunction with the reversed and left-justified 
+modifiers, specify how the pixel components are placed into memory.&nbsp; All 
+non-RGB/YCbCr formats are packed.</p>
+<ul>
+				<li><span class="inline_code">OCDFMTDEF_PACKED </span>- pixel 
+				components are sequential in memory, defaulting to RGB or CbCr 
+				order, right justified</li>
+				<li><span class="inline_code">OCDFMTDEF_DISTRIBUTED </span>- 
+				pixel components that don&#39;t fill the container are evenly 
+				distributed within the container (e.g. 32 bits of ARGB in a 
+				64-bit container is distributed 8 bits every 16 bits: xAxRxGxB)</li>
+				<li><span class="inline_code">OCDFMTDEF_2_PLANE_YCbCr </span>- 
+				for subsampled formats only, Y plane is followed by subsampled 
+				interleaved CbCr plane</li>
+				<li><span class="inline_code">OCDFMTDEF_3_PLANE_STACKED </span>- 
+				pixel components are divided into planes that are sequential in 
+				memory</li>
+				<li><span class="inline_code">
+				OCDFMTDEF_3_PLANE_SIDE_BY_SIDE_YCbCr </span>- for subsampled 
+				formats only pixel components are divided into planes, with the 
+				non-subsampled component followed by the subsampled components 
+				stored side-by-side (lines interleaved) </li>
+</ul>
+<p class="Header3">Reversed (RGB, YCbCr)</p>
+<p><span class="inline_code">OCDFMTDEF_REVERSED</span> indicates that the order 
+of the color components is the opposite of the defaults.&nbsp; For RGB formats, 
+this means BGR.&nbsp; For YCbCr formats, this means CrCb.</p>
+<p class="Header3">Left-Justified (RGB, YCbCr)</p>
+<p><span class="inline_code">OCDFMTDEF_LEFT_JUSTIFIED</span> indicates that the 
+color components are shifted to the left, as opposed to the default of shifting 
+to the right.</p>
+<p>Some examples for <span class="inline_code">OCDFMTDEF_REVERSED</span> and
+<span class="inline_code">OCDFMTDEF_LEFT_JUSTIFIED</span>:</p>
+<ul>
+				<li>Packed RGB:&nbsp; x,R,G,B is the default byte order<ul>
+								<li>x,B,G,R is the format if
+								<span class="inline_code">OCDFMTDEF_REVERSED</span> 
+								is set</li>
+								<li>R,G,B,x is the format if
+								<span class="inline_code">
+								OCDFMTDEF_LEFT_JUSTIFIED</span> is set</li>
+								<li>B,G,R,x is the format if
+								<span class="inline_code">OCDFMTDEF_REVERSED</span> 
+								and <span class="inline_code">
+								OCDFMTDEF_LEFT_JUSTIFIED</span> are set</li>
+				</ul>
+				</li>
+				<li>Packed YCbCr 4:2:2:&nbsp; U,Y,V,Y is the default byte order<ul>
+								<li>V,Y,U,Y is the format if
+								<span class="inline_code">OCDFMTDEF_REVERSED</span> 
+								is set</li>
+								<li>Y,U,Y,V is the format if
+								<span class="inline_code">
+								OCDFMTDEF_LEFT_JUSTIFIED</span> is set</li>
+								<li>Y,V,Y,U is the format if
+								<span class="inline_code">OCDFMTDEF_REVERSED</span> 
+								and <span class="inline_code">
+								OCDFMTDEF_LEFT_JUSTIFIED</span> are set</li>
+				</ul>
+				</li>
+				<li>3-Plane YCbCr 4:2:2 or 4:2:0:&nbsp; The default is the Y 
+				plane, followed by the Cb plane and then the Cr plane.&nbsp; The 
+				Cb and Cr planes have half of the stride of the Y plane.<ul>
+								<li>If <span class="inline_code">
+								OCDFMTDEF_REVERSED</span> is set, the Cb and Cr 
+								planes are reversed.</li>
+								<li><span class="inline_code">
+								OCDFMTDEF_LEFT_JUSTIFIED</span> has a special 
+								case for this layout.&nbsp; When set, it 
+								indicates that the Cb and Cr planes have the 
+								same stride as the Y plane, and the Cb and Cr 
+								data is shifted to the left.</li>
+								<li>If both <span class="inline_code">
+								OCDFMTDEF_LEFT_REVERSED</span> and
+								<span class="inline_code">
+								OCDFMTDEF_LEFT_JUSTIFIED</span> are set, the Cb 
+								and Cr planes are reversed and double width.</li>
+				</ul>
+				</li>
+				<li>2-Plane YCbCr 4:2:2 or 4:2:0:&nbsp; The default is the Y 
+				plane, followed by the CbCr interleaved plane, with the same 
+				stride as the Y plane.<ul>
+								<li><span class="inline_code">OCDFMTDEF_REVERSED</span> 
+								swaps the Cb and Cr components.</li>
+				</ul>
+				</li>
+</ul>
+<p class="Header3">Container (All)</p>
+<p>The container field indicates the total size of all the bits of the color 
+components of a color format.&nbsp; This does not include the alpha component, 
+if it is present.</p>
+<ul>
+				<li><span class="inline_code">OCDFMTDEF_CONTAINER_8BIT</span> - 
+				Indicates the container is 8 bits.&nbsp; When the pixel 
+				component size is 4 bits or less, multiple pixels are stored in 
+				the container.</li>
+				<li><span class="inline_code">OCDFMTDEF_CONTAINER_16BIT</span> - 
+				Indicates the container is 16 bits.&nbsp; When the pixel 
+				component size is less than 16 bits, the remaining bits are 
+				available to be used as an alpha channel.</li>
+				<li><span class="inline_code">OCDFMTDEF_CONTAINER_24BIT</span> - 
+				Indicates the container is 24 bits.&nbsp; When the pixel 
+				component size is less than 24 bits, the remaining bits are 
+				available to be used as an alpha channel.</li>
+				<li><span class="inline_code">OCDFMTDEF_CONTAINER_32BIT</span> - 
+				Indicates the container is 32 bits.&nbsp; When the pixel 
+				component size is less than 32 bits, the remaining bits are 
+				available to be used as an alpha channel.</li>
+				<li><span class="inline_code">OCDFMTDEF_CONTAINER_48BIT</span> - 
+				Indicates the container is 48 bits.&nbsp; When the pixel 
+				component size is less than 48 bits, the remaining bits are 
+				available to be used as an alpha channel.</li>
+				<li><span class="inline_code">OCDFMTDEF_CONTAINER_64BIT</span> - 
+				Indicates the container is 64 bits.&nbsp; When the pixel 
+				component size is less than 64 bits, the remaining bits are 
+				available to be used as an alpha channel.</li>
+</ul>
+<p class="Header3">Component Size (All)</p>
+<p>The component size field specifies the total number of bits in the color 
+components, not including the alpha component.&nbsp; (It is specified in the 
+code with one subtracted.)</p>
 </body>
 
 </html>
