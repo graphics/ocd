@@ -68,6 +68,18 @@ a { }
 				text-align: left;
 				font-family: "Courier New", Courier, monospace;
 }
+.style1 {
+				margin-left: 40px;
+}
+.style2 {
+				text-align: center;
+				border-style: solid;
+				border-width: 1px;
+}
+.style4 {
+				border-width: 0px;
+				margin-left: 40px;
+}
 </style>
 </head>
 
@@ -150,11 +162,23 @@ any reasonably common color format in use today.</p>
 sub-divided into bitfields used to describe the format.</p>
 <p class="Header2">Predefined VENDOR_ALL Names</p>
 <p>A set of enumeration values are already provided with predefined names.&nbsp; 
-But using the bitfields below, new combinations can be constructed.&nbsp; These 
-combinations are already legal, but they just have not been given names.</p>
-<p>The naming conventions of the predefined formats are based on their byte 
+It is easiest to use these predefined values.&nbsp; They already cover most of 
+the formats likely to be encountered.</p>
+<p>NOTE:&nbsp; The naming conventions of the predefined formats are based on their byte 
 ordering, so they are not endian-dependent.&nbsp; The exceptions are the 16-bit 
 packed formats, which are little-endian.</p>
+<p>Some examples:</p>
+<p class="style1"><span class="inline_code">OCDFMT_RGB24</span> is a format 
+where each pixel consists of 3 bytes (24 bits).&nbsp; The first byte in memory 
+(at address A, read as a byte) is the red component.&nbsp; The second byte in 
+memory (at address A+1, read as a byte) is the green component.&nbsp; The third 
+byte in memory (at address A+2, read as a byte) is the blue component.</p>
+<p class="style1">OCDFMT_xRGB24 is a format where each pixel consists of 4 bytes 
+(32 bits), but only 3 of these (24 bits) contain color information.&nbsp; The 
+remaining 8 bits are ignored on a read, or filled with 0s on a write.</p>
+<p>&nbsp; 
+But using the bitfields below, new combinations can be constructed.&nbsp; These 
+combinations are already legal, but they just have not been given names.</p>
 <p class="Header2">VENDOR_ALL Bitfields</p>
 <p>The following bitfields only apply to the <span class="inline_code">
 OCDFMTDEF_VENDOR_ALL</span> color formats. </p>
@@ -170,26 +194,223 @@ color spaces defined, but there is room for three more if the need arises:</p>
 				<li>Alpha - <span class="inline_code">OCDFMTDEF_CS_ALPHA</span></li>
 </ul>
 <p>Once the color space has been selected, the remaining bits depend on that 
-choice.</p>
+choice:</p>
+<p class="Code_Header_3">OCDFMTDEF_CS_MONO</p>
+<table class="style4">
+				<tr>
+								<td class="style2">31:24</td>
+								<td class="style2">23:21</td>
+								<td class="style2">20:19</td>
+								<td class="style2">18</td>
+								<td class="style2">17</td>
+								<td class="style2">16</td>
+								<td class="style2">15:14</td>
+								<td class="style2">13:11</td>
+								<td class="style2">10</td>
+								<td class="style2">9</td>
+								<td class="style2">8:6</td>
+								<td class="style2">5:0</td>
+				</tr>
+				<tr>
+								<td class="style2">00000000</td>
+								<td class="style2">000</td>
+								<td class="style2">reserved<br />
+								(00)</td>
+								<td class="style2">alpha</td>
+								<td class="style2">non-premult/<br />
+								fill empty 0</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reversed</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">container<br />
+								size</td>
+								<td class="style2">color<br />
+								bits-1</td>
+				</tr>
+</table>
+<p class="Code_Header_3">OCDFMTDEF_CS_LUT</p>
+<table class="style4">
+				<tr>
+								<td class="style2">31:24</td>
+								<td class="style2">23:21</td>
+								<td class="style2">20:19</td>
+								<td class="style2">18</td>
+								<td class="style2">17</td>
+								<td class="style2">16</td>
+								<td class="style2">15:14</td>
+								<td class="style2">13:11</td>
+								<td class="style2">10</td>
+								<td class="style2">9</td>
+								<td class="style2">8:6</td>
+								<td class="style2">5:0</td>
+				</tr>
+				<tr>
+								<td class="style2">00000000</td>
+								<td class="style2">001</td>
+								<td class="style2">reserved<br />
+								(00)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reversed</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">container<br />
+								size</td>
+								<td class="style2">color<br />
+								bits-1</td>
+				</tr>
+</table>
+<p class="Code_Header_3">OCDFMTDEF_CS_RGB</p>
+<table class="style4">
+				<tr>
+								<td class="style2">31:24</td>
+								<td class="style2">23:21</td>
+								<td class="style2">20:19</td>
+								<td class="style2">18</td>
+								<td class="style2">17</td>
+								<td class="style2">16</td>
+								<td class="style2">15:14</td>
+								<td class="style2">13:11</td>
+								<td class="style2">10</td>
+								<td class="style2">9</td>
+								<td class="style2">8:6</td>
+								<td class="style2">5:0</td>
+				</tr>
+				<tr>
+								<td class="style2">00000000</td>
+								<td class="style2">010</td>
+								<td class="style2">reserved<br />
+								(00)</td>
+								<td class="style2">alpha</td>
+								<td class="style2">non-premult/<br />
+								fill empty 0</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(00)</td>
+								<td class="style2">layout</td>
+								<td class="style2">reversed</td>
+								<td class="style2">left<br />
+								justified</td>
+								<td class="style2">container<br />
+								size</td>
+								<td class="style2">color<br />
+								bits-1</td>
+				</tr>
+</table>
+<p class="Code_Header_3">OCDFMTDEF_CS_YCbCr</p>
+<table class="style4">
+				<tr>
+								<td class="style2">31:24</td>
+								<td class="style2">23:21</td>
+								<td class="style2">20:19</td>
+								<td class="style2">18</td>
+								<td class="style2">17</td>
+								<td class="style2">16</td>
+								<td class="style2">15:14</td>
+								<td class="style2">13:11</td>
+								<td class="style2">10</td>
+								<td class="style2">9</td>
+								<td class="style2">8:6</td>
+								<td class="style2">5:0</td>
+				</tr>
+				<tr>
+								<td class="style2">00000000</td>
+								<td class="style2">011</td>
+								<td class="style2">standard</td>
+								<td class="style2">alpha</td>
+								<td class="style2">non-premult/<br />
+								fill empty 0</td>
+								<td class="style2">subsample<br />
+								position</td>
+								<td class="style2">subsampling</td>
+								<td class="style2">layout</td>
+								<td class="style2">reversed</td>
+								<td class="style2">left<br />
+								justified</td>
+								<td class="style2">container<br />
+								size</td>
+								<td class="style2">color<br />
+								bits-1</td>
+				</tr>
+</table>
+<p class="Code_Header_3">OCDFMTDEF_CS_ALPHA</p>
+<table class="style4">
+				<tr>
+								<td class="style2">31:24</td>
+								<td class="style2">23:21</td>
+								<td class="style2">20:19</td>
+								<td class="style2">18</td>
+								<td class="style2">17</td>
+								<td class="style2">16</td>
+								<td class="style2">15:14</td>
+								<td class="style2">13:11</td>
+								<td class="style2">10</td>
+								<td class="style2">9</td>
+								<td class="style2">8:6</td>
+								<td class="style2">5:0</td>
+				</tr>
+				<tr>
+								<td class="style2">00000000</td>
+								<td class="style2">100</td>
+								<td class="style2">reserved<br />
+								(00)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">reserved<br />
+								(00)</td>
+								<td class="style2">reserved<br />
+								(00)</td>
+								<td class="style2">reversed</td>
+								<td class="style2">reserved<br />
+								(0)</td>
+								<td class="style2">container<br />
+								size</td>
+								<td class="style2">alpha<br />
+								bits-1</td>
+				</tr>
+</table>
+<p>&nbsp;</p>
 <p class="Header3">Standard (YCbCr)</p>
 <p>This field specifies the standard being used for this color space.</p>
 <p>Currently, this field is only defined for the YCbCr color space:</p>
 <ul>
-				<li>ITU-R BT.601 - <span class="inline_code">
+				<li><a href="http://www.itu.int/rec/R-REC-BT.601/en">ITU-R BT.601</a> - <span class="inline_code">
 				OCDFMTDEF_STD_ITUR_601_YCbCr</span></li>
-				<li>ITU-R BT.709 - <span class="inline_code">
+				<li><a href="http://www.itu.int/rec/R-REC-BT.709/en">ITU-R BT.709</a> - <span class="inline_code">
 				OCDFMTDEF_STD_ITUR_709_YCbCr</span></li>
-				<li>Full Scale - <span class="inline_code">
+				<li><a href="http://www.w3.org/Graphics/JPEG/jfif3.pdf">Full Scale</a> - <span class="inline_code">
 				OCDFMTDEF_FULLSCALE_YCbCr</span></li>
 </ul>
 <p>We believe that this field will be used to add linear format support in the 
 very near future.</p>
-<p class="Header3">Fill Empty 1 (Mono, RGB, YCbCr)</p>
+<p class="Header3">Fill Empty 0 (Mono, RGB, YCbCr)</p>
 <p>When there is no alpha included with a format, but the color components don&#39;t 
 fill up the container, the remainder of the bits must be filled with something 
-when written.&nbsp; When the <span class="inline_code">OCDFMTDEF_FILL_EMPTY_1</span> 
-flag is not set, they are filled with 0.&nbsp; When the flag is set, they are 
-filled with 1.</p>
+when written.&nbsp; When the <span class="inline_code">OCDFMTDEF_FILL_EMPTY_0</span> 
+flag is not set, they are filled with 1.&nbsp; This is done in case they are 
+later used as an alpha value, which will already represent an opaque pixel 
+(whether the pixel is premultiplied or not).&nbsp; When the flag is set, they are 
+filled with 0, to accommodate those environments where they are required to be 
+cleared when unused.</p>
 <p class="Header3">Alpha (Mono, RGB, YCbCr)</p>
 <p>The <span class="inline_code">OCDFMTDEF_ALPHA</span> bit indicates that the 
 format includes an alpha channel along with the main color components.</p>
@@ -359,9 +580,11 @@ if it is present.</p>
 				available to be used as an alpha channel.</li>
 </ul>
 <p class="Header3">Component Size (All)</p>
-<p>TThe component size field specifies the total number of bits in the color 
+<p>The component size field specifies the total number of bits in the color 
 components, not including the alpha component.&nbsp; (It is specified in the 
 code with one subtracted.)</p>
+<p>NOTE:&nbsp; The alpha only color space uses this to specify the total number 
+of alpha bits.</p>
 </body>
 
 </html>
