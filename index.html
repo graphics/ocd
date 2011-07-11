@@ -27,7 +27,11 @@
 				line-height: 100%;
 				margin: 0px;
 }
-a { }
+.note {
+				font-family: Arial, Helvetica, sans-serif;
+				font-weight: bold;
+				margin-left: 40px;
+}
 .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
 .download { float: right; }
 .inline_code {
@@ -68,16 +72,21 @@ a { }
 				text-align: left;
 				font-family: "Courier New", Courier, monospace;
 }
-.style1 {
+.indent {
 				margin-left: 40px;
 }
-.style2 {
+.ctr_thinbord {
 				text-align: center;
 				border: 1px solid #000000;
 }
 .style4 {
 				border-width: 0px;
 				margin-left: 40px;
+}
+.style5 {
+				margin-left: 80px;
+				font-family: "Courier New", Courier, monospace;
+				font-size: small;
 }
 </style>
 </head>
@@ -105,7 +114,7 @@ there are plenty of common formats, the definition of the code specifying them i
 																<tr>
 																				<td>
 <div>
-<p class="style17">The defintions are designed and maintained by Texas Instruments, Inc., but anyone is free to use them with no 
+<p class="style17">The definitions are designed and maintained by Texas Instruments, Inc., but anyone is free to use them with no 
 cost or obligation.</p>
 <p>This project is licensed under the <a href="http://creativecommons.org/licenses/by-nd/3.0/">Creative Commons 
 Attribution-NoDerivs 3.0 Unported License</a>.</p>
@@ -137,13 +146,23 @@ Attribution-NoDerivs 3.0 Unported License</a>.</p>
       <pre><a class="cmd_line">$ git clone git://github.com/graphics/ocd</a></pre>
 																</td>
 												</tr>
+												<tr><td><hr />
+																<table style="width: 100%">
+																				<tr>
+																								<td class="Header2">Wiki</td>
+																				</tr>
+																				<tr>
+																								<td><a href="https://github.com/graphics/ocd/wiki">https://github.com/graphics/ocd/wiki</a></td>
+																				</tr>
+																</table>
+																</td></tr>
 								</table>
 								</td>
 				</tr>
 </table>
 <hr />
 <p class="Header1">Header File</p>
-<p><span class="filename">ocd.h</span> contains the Open Color format Defintions.</p>
+<p><span class="filename">ocd.h</span> contains the Open Color format Definitions.</p>
 <p class="Header1">How does it work?</p>
 <p>OCD was designed to allow a single 32-bit word (int) to specify the 
 color format.&nbsp; The color format is specified as an enumeration.&nbsp; The 
@@ -159,25 +178,34 @@ being used.&nbsp; And this set of definitions is designed to specify pretty much
 any reasonably common color format in use today.</p>
 <p>When <span class="inline_code">OCDFMTDEF_VENDOR_ALL</span> is chosen, the remaining 24 bits of the format are 
 sub-divided into bitfields used to describe the format.</p>
-<p class="Header2">Predefined VENDOR_ALL Names</p>
+<p class="Header2">Predefined Names</p>
 <p>A set of enumeration values are already provided with predefined names.&nbsp; 
-It is easiest to use these predefined values.&nbsp; They already cover most of 
+It is easiest for clients to use these predefined values.&nbsp; They already cover most of 
 the formats likely to be encountered.</p>
-<p>NOTE:&nbsp; The naming conventions of the predefined formats are based on their byte 
+<p class="note">NOTE:&nbsp; The naming conventions of the predefined formats are based on their byte 
 ordering, so they are not endian-dependent.&nbsp; The exceptions are the 16-bit 
 packed formats, which are little-endian.</p>
 <p>Some examples:</p>
-<p class="style1"><span class="inline_code">OCDFMT_RGB24</span> is a format 
+<p class="indent"><span class="inline_code">OCDFMT_RGB24</span> is a format 
 where each pixel consists of 3 bytes (24 bits).&nbsp; The first byte in memory 
 (at address A, read as a byte) is the red component.&nbsp; The second byte in 
 memory (at address A+1, read as a byte) is the green component.&nbsp; The third 
 byte in memory (at address A+2, read as a byte) is the blue component.</p>
-<p class="style1">OCDFMT_xRGB24 is a format where each pixel consists of 4 bytes 
+<p class="indent">OCDFMT_xRGB24 is a format where each pixel consists of 4 bytes 
 (32 bits), but only 3 of these (24 bits) contain color information.&nbsp; The 
 remaining 8 bits are ignored on a read, or filled with 0s on a write.</p>
-<p>&nbsp; 
-But using the bitfields below, new combinations can be constructed.&nbsp; These 
-combinations are already legal, but they just have not been given names.</p>
+<p>If the format of interest is not already specified, it is still likely that 
+the format is supported by the VENDOR_ALL design.&nbsp; Using the bitfields below, new combinations can be constructed.&nbsp; These 
+combinations are already legal, but they just have not been given names.&nbsp; 
+Users of OCD can define their own names in a separate header file and include it 
+using the OCD_EXTERNAL_INCLUDE mechanism:</p>
+<p class="indent">file: <span class="filename">myocdfmts.h</span></p>
+<p class="style5">MYOCDFMT_ALPHAMONO8 = OCDFMT_MONO8 |<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+OCDFMTDEF_ALPHA,</p>
+<p class="indent">file:&nbsp; <span class="filename">mysource.c</span></p>
+<p class="style5">#define OCD_EXTERNAL_INCLUDE &quot;myocdfmts.h&quot;<br />
+#include &lt;ocd.h&gt;</p>
 <p class="Header2">VENDOR_ALL Bitfields</p>
 <p>The following bitfields only apply to the <span class="inline_code">
 OCDFMTDEF_VENDOR_ALL</span> color formats. </p>
@@ -197,193 +225,193 @@ choice:</p>
 <p class="Code_Header_3">OCDFMTDEF_CS_MONO</p>
 <table class="style4">
 				<tr>
-								<td class="style2">31:24</td>
-								<td class="style2">23:21</td>
-								<td class="style2">20:19</td>
-								<td class="style2">18</td>
-								<td class="style2">17</td>
-								<td class="style2">16</td>
-								<td class="style2">15:14</td>
-								<td class="style2">13:11</td>
-								<td class="style2">10</td>
-								<td class="style2">9</td>
-								<td class="style2">8:6</td>
-								<td class="style2">5:0</td>
+								<td class="ctr_thinbord">31:24</td>
+								<td class="ctr_thinbord">23:21</td>
+								<td class="ctr_thinbord">20:19</td>
+								<td class="ctr_thinbord">18</td>
+								<td class="ctr_thinbord">17</td>
+								<td class="ctr_thinbord">16</td>
+								<td class="ctr_thinbord">15:14</td>
+								<td class="ctr_thinbord">13:11</td>
+								<td class="ctr_thinbord">10</td>
+								<td class="ctr_thinbord">9</td>
+								<td class="ctr_thinbord">8:6</td>
+								<td class="ctr_thinbord">5:0</td>
 				</tr>
 				<tr>
-								<td class="style2">00000000</td>
-								<td class="style2">000</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">00000000</td>
+								<td class="ctr_thinbord">000</td>
+								<td class="ctr_thinbord">reserved<br />
 								(00)</td>
-								<td class="style2">alpha</td>
-								<td class="style2">non-premult/<br />
+								<td class="ctr_thinbord">alpha</td>
+								<td class="ctr_thinbord">non-premult/<br />
 								fill empty 0</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reversed</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reversed</td>
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">container<br />
+								<td class="ctr_thinbord">container<br />
 								size</td>
-								<td class="style2">color<br />
+								<td class="ctr_thinbord">color<br />
 								bits-1</td>
 				</tr>
 </table>
 <p class="Code_Header_3">OCDFMTDEF_CS_LUT</p>
 <table class="style4">
 				<tr>
-								<td class="style2">31:24</td>
-								<td class="style2">23:21</td>
-								<td class="style2">20:19</td>
-								<td class="style2">18</td>
-								<td class="style2">17</td>
-								<td class="style2">16</td>
-								<td class="style2">15:14</td>
-								<td class="style2">13:11</td>
-								<td class="style2">10</td>
-								<td class="style2">9</td>
-								<td class="style2">8:6</td>
-								<td class="style2">5:0</td>
+								<td class="ctr_thinbord">31:24</td>
+								<td class="ctr_thinbord">23:21</td>
+								<td class="ctr_thinbord">20:19</td>
+								<td class="ctr_thinbord">18</td>
+								<td class="ctr_thinbord">17</td>
+								<td class="ctr_thinbord">16</td>
+								<td class="ctr_thinbord">15:14</td>
+								<td class="ctr_thinbord">13:11</td>
+								<td class="ctr_thinbord">10</td>
+								<td class="ctr_thinbord">9</td>
+								<td class="ctr_thinbord">8:6</td>
+								<td class="ctr_thinbord">5:0</td>
 				</tr>
 				<tr>
-								<td class="style2">00000000</td>
-								<td class="style2">001</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">00000000</td>
+								<td class="ctr_thinbord">001</td>
+								<td class="ctr_thinbord">reserved<br />
 								(00)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reversed</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reversed</td>
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">container<br />
+								<td class="ctr_thinbord">container<br />
 								size</td>
-								<td class="style2">color<br />
+								<td class="ctr_thinbord">color<br />
 								bits-1</td>
 				</tr>
 </table>
 <p class="Code_Header_3">OCDFMTDEF_CS_RGB</p>
 <table class="style4">
 				<tr>
-								<td class="style2">31:24</td>
-								<td class="style2">23:21</td>
-								<td class="style2">20:19</td>
-								<td class="style2">18</td>
-								<td class="style2">17</td>
-								<td class="style2">16</td>
-								<td class="style2">15:14</td>
-								<td class="style2">13:11</td>
-								<td class="style2">10</td>
-								<td class="style2">9</td>
-								<td class="style2">8:6</td>
-								<td class="style2">5:0</td>
+								<td class="ctr_thinbord">31:24</td>
+								<td class="ctr_thinbord">23:21</td>
+								<td class="ctr_thinbord">20:19</td>
+								<td class="ctr_thinbord">18</td>
+								<td class="ctr_thinbord">17</td>
+								<td class="ctr_thinbord">16</td>
+								<td class="ctr_thinbord">15:14</td>
+								<td class="ctr_thinbord">13:11</td>
+								<td class="ctr_thinbord">10</td>
+								<td class="ctr_thinbord">9</td>
+								<td class="ctr_thinbord">8:6</td>
+								<td class="ctr_thinbord">5:0</td>
 				</tr>
 				<tr>
-								<td class="style2">00000000</td>
-								<td class="style2">010</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">00000000</td>
+								<td class="ctr_thinbord">010</td>
+								<td class="ctr_thinbord">reserved<br />
 								(00)</td>
-								<td class="style2">alpha</td>
-								<td class="style2">non-premult/<br />
+								<td class="ctr_thinbord">alpha</td>
+								<td class="ctr_thinbord">non-premult/<br />
 								fill empty 0</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(00)</td>
-								<td class="style2">layout</td>
-								<td class="style2">reversed</td>
-								<td class="style2">left<br />
+								<td class="ctr_thinbord">layout</td>
+								<td class="ctr_thinbord">reversed</td>
+								<td class="ctr_thinbord">left<br />
 								justified</td>
-								<td class="style2">container<br />
+								<td class="ctr_thinbord">container<br />
 								size</td>
-								<td class="style2">color<br />
+								<td class="ctr_thinbord">color<br />
 								bits-1</td>
 				</tr>
 </table>
 <p class="Code_Header_3">OCDFMTDEF_CS_YCbCr</p>
 <table class="style4">
 				<tr>
-								<td class="style2">31:24</td>
-								<td class="style2">23:21</td>
-								<td class="style2">20:19</td>
-								<td class="style2">18</td>
-								<td class="style2">17</td>
-								<td class="style2">16</td>
-								<td class="style2">15:14</td>
-								<td class="style2">13:11</td>
-								<td class="style2">10</td>
-								<td class="style2">9</td>
-								<td class="style2">8:6</td>
-								<td class="style2">5:0</td>
+								<td class="ctr_thinbord">31:24</td>
+								<td class="ctr_thinbord">23:21</td>
+								<td class="ctr_thinbord">20:19</td>
+								<td class="ctr_thinbord">18</td>
+								<td class="ctr_thinbord">17</td>
+								<td class="ctr_thinbord">16</td>
+								<td class="ctr_thinbord">15:14</td>
+								<td class="ctr_thinbord">13:11</td>
+								<td class="ctr_thinbord">10</td>
+								<td class="ctr_thinbord">9</td>
+								<td class="ctr_thinbord">8:6</td>
+								<td class="ctr_thinbord">5:0</td>
 				</tr>
 				<tr>
-								<td class="style2">00000000</td>
-								<td class="style2">011</td>
-								<td class="style2">standard</td>
-								<td class="style2">alpha</td>
-								<td class="style2">non-premult/<br />
+								<td class="ctr_thinbord">00000000</td>
+								<td class="ctr_thinbord">011</td>
+								<td class="ctr_thinbord">standard</td>
+								<td class="ctr_thinbord">alpha</td>
+								<td class="ctr_thinbord">non-premult/<br />
 								fill empty 0</td>
-								<td class="style2">subsample<br />
+								<td class="ctr_thinbord">subsample<br />
 								position</td>
-								<td class="style2">subsampling</td>
-								<td class="style2">layout</td>
-								<td class="style2">reversed</td>
-								<td class="style2">left<br />
+								<td class="ctr_thinbord">subsampling</td>
+								<td class="ctr_thinbord">layout</td>
+								<td class="ctr_thinbord">reversed</td>
+								<td class="ctr_thinbord">left<br />
 								justified</td>
-								<td class="style2">container<br />
+								<td class="ctr_thinbord">container<br />
 								size</td>
-								<td class="style2">color<br />
+								<td class="ctr_thinbord">color<br />
 								bits-1</td>
 				</tr>
 </table>
 <p class="Code_Header_3">OCDFMTDEF_CS_ALPHA</p>
 <table class="style4">
 				<tr>
-								<td class="style2">31:24</td>
-								<td class="style2">23:21</td>
-								<td class="style2">20:19</td>
-								<td class="style2">18</td>
-								<td class="style2">17</td>
-								<td class="style2">16</td>
-								<td class="style2">15:14</td>
-								<td class="style2">13:11</td>
-								<td class="style2">10</td>
-								<td class="style2">9</td>
-								<td class="style2">8:6</td>
-								<td class="style2">5:0</td>
+								<td class="ctr_thinbord">31:24</td>
+								<td class="ctr_thinbord">23:21</td>
+								<td class="ctr_thinbord">20:19</td>
+								<td class="ctr_thinbord">18</td>
+								<td class="ctr_thinbord">17</td>
+								<td class="ctr_thinbord">16</td>
+								<td class="ctr_thinbord">15:14</td>
+								<td class="ctr_thinbord">13:11</td>
+								<td class="ctr_thinbord">10</td>
+								<td class="ctr_thinbord">9</td>
+								<td class="ctr_thinbord">8:6</td>
+								<td class="ctr_thinbord">5:0</td>
 				</tr>
 				<tr>
-								<td class="style2">00000000</td>
-								<td class="style2">100</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">00000000</td>
+								<td class="ctr_thinbord">100</td>
+								<td class="ctr_thinbord">reserved<br />
 								(00)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(00)</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reserved<br />
 								(00)</td>
-								<td class="style2">reversed</td>
-								<td class="style2">reserved<br />
+								<td class="ctr_thinbord">reversed</td>
+								<td class="ctr_thinbord">reserved<br />
 								(0)</td>
-								<td class="style2">container<br />
+								<td class="ctr_thinbord">container<br />
 								size</td>
-								<td class="style2">alpha<br />
+								<td class="ctr_thinbord">alpha<br />
 								bits-1</td>
 				</tr>
 </table>
@@ -582,7 +610,7 @@ if it is present.</p>
 <p>The component size field specifies the total number of bits in the color 
 components, not including the alpha component.&nbsp; (It is specified in the 
 code with one subtracted.)</p>
-<p>NOTE:&nbsp; The alpha only color space uses this to specify the total number 
+<p class="note">NOTE:&nbsp; The alpha only color space uses this to specify the total number 
 of alpha bits.</p>
 </body>
 
