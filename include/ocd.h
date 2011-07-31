@@ -90,7 +90,7 @@
 /* 7 reserved */
 
 /**** Bits 20-19 define the standard ****/
-#define OCDFMTDEF_STD_SHIFT 9
+#define OCDFMTDEF_STD_SHIFT 19
 #define OCDFMTDEF_STD_MASK (3 << OCDFMTDEF_STD_SHIFT)
 
 #define OCDFMTDEF_STD_ITUR_601_YCbCr \
