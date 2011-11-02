@@ -217,10 +217,10 @@
 /* To calculate the number of bits for each RGBA component, use the following
  * formula:
  *
- * green bits = int((total bits + 2) / 3)
- * blue bits = int((total bits - green bits) / 2)
- * red bits = total bits - green bits - blue bits
- * alpha bits (when present) = number of bits to reach the next byte boundary
+ * green bits = int((color bits + 2) / 3)
+ * blue bits = int((color bits - green bits) / 2)
+ * red bits = color bits - green bits - blue bits
+ * alpha bits (when present) = container size - color bits
  *
  * Ex. 1:  RGB16 -> 16 bits
  *	   green bits = int((16 + 2) / 3) = 6
@@ -231,7 +231,7 @@
  *	   green bits = int((16 + 2) / 3) = 6
  *         blue bits = int((16 - 6) / 2) = 5
  *         red bits = 16 - 6 - 5 = 5
- *         alpha bits = no more bits to next byte, so 8 more needed = 8
+ *         alpha bits = 24 - 16 = 8
  * Ex. 3:  RGB32 -> 32 bits
  *	   green bits = int((32 + 2) / 3) = 11
  *	   blue bits = int((32 - 11) / 2) = 10
@@ -643,7 +643,7 @@ enum ocdformat {
 	OCDFMT_YUY2_601 = OCDFMT_YUYV_601,
 	OCDFMT_YUY2_709 = OCDFMT_YUYV_709,
 
-	OCDFMT_YVYU =	OCDFMT_UYVY |
+	OCDFMT_YVYU =	OCDFMT_VYUY |
 			OCDFMTDEF_LEFT_JUSTIFIED,
 	OCDFMT_YVYU_601 = OCDFMT_YVYU |
 			OCDFMTDEF_STD_ITUR_601_YCbCr,
