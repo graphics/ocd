@@ -79,14 +79,53 @@
 				text-align: center;
 				border: 1px solid #000000;
 }
-.style4 {
-				border-width: 0px;
-				margin-left: 40px;
-}
-.style5 {
+.indent_code {
 				margin-left: 80px;
 				font-family: "Courier New", Courier, monospace;
 				font-size: small;
+}
+.white {
+				color: #FFFFFF;
+}
+.tbl_red_ctr_bord {
+				border-width: 1px;
+				text-align: center;
+				color: #FFFFFF;
+				background-color: #FF0000;
+}
+.tbl_grn_ctr_bord {
+				border-width: 1px;
+				text-align: center;
+				background-color: #00FF00;
+}
+.tbl_blu_ctr_bord {
+				border-width: 1px;
+				text-align: center;
+				color: #FFFFFF;
+				background-color: #0000FF;
+}
+.tbl_alf_ctr_bord {
+				border-width: 1px;
+				text-align: center;
+				color: #FFFFFF;
+				background-color: #808080;
+}
+.tbl_y_ctr_bord {
+				border-width: 1px;
+				text-align: center;
+				background-color: #C0C0C0;
+}
+.tbl_u_ctr_bord {
+				border-width: 1px;
+				text-align: center;
+				color: #FFFFFF;
+				background-color: #99CC00;
+}
+.tbl_v_ctr_bord {
+				border-width: 1px;
+				text-align: center;
+				color: #FFFFFF;
+				background-color: #FF6699;
 }
 </style>
 </head>
@@ -200,11 +239,11 @@ combinations are already legal, but they just have not been given names.&nbsp;
 Users of OCD can define their own names in a separate header file and include it 
 using the OCD_EXTERNAL_INCLUDE mechanism:</p>
 <p class="indent">file: <span class="filename">myocdfmts.h</span></p>
-<p class="style5">MYOCDFMT_ALPHAMONO8 = OCDFMT_MONO8 |<br />
+<p class="indent_code">MYOCDFMT_ALPHAMONO8 = OCDFMT_MONO8 |<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 OCDFMTDEF_ALPHA,</p>
 <p class="indent">file:&nbsp; <span class="filename">mysource.c</span></p>
-<p class="style5">#define OCD_EXTERNAL_INCLUDE &quot;myocdfmts.h&quot;<br />
+<p class="indent_code">#define OCD_EXTERNAL_INCLUDE &quot;myocdfmts.h&quot;<br />
 #include &lt;ocd.h&gt;</p>
 <p class="Header2">VENDOR_ALL Bitfields</p>
 <p>The following bitfields only apply to the <span class="inline_code">
@@ -223,7 +262,7 @@ color spaces defined, but there is room for three more if the need arises:</p>
 <p>Once the color space has been selected, the remaining bits depend on that 
 choice:</p>
 <p class="Code_Header_3">OCDFMTDEF_CS_MONO</p>
-<table class="style4">
+<table class="indent">
 				<tr>
 								<td class="ctr_thinbord">31:24</td>
 								<td class="ctr_thinbord">23:21</td>
@@ -262,7 +301,7 @@ choice:</p>
 				</tr>
 </table>
 <p class="Code_Header_3">OCDFMTDEF_CS_LUT</p>
-<table class="style4">
+<table class="indent">
 				<tr>
 								<td class="ctr_thinbord">31:24</td>
 								<td class="ctr_thinbord">23:21</td>
@@ -302,7 +341,7 @@ choice:</p>
 				</tr>
 </table>
 <p class="Code_Header_3">OCDFMTDEF_CS_RGB</p>
-<table class="style4">
+<table class="indent">
 				<tr>
 								<td class="ctr_thinbord">31:24</td>
 								<td class="ctr_thinbord">23:21</td>
@@ -340,7 +379,7 @@ choice:</p>
 				</tr>
 </table>
 <p class="Code_Header_3">OCDFMTDEF_CS_YCbCr</p>
-<table class="style4">
+<table class="indent">
 				<tr>
 								<td class="ctr_thinbord">31:24</td>
 								<td class="ctr_thinbord">23:21</td>
@@ -376,7 +415,7 @@ choice:</p>
 				</tr>
 </table>
 <p class="Code_Header_3">OCDFMTDEF_CS_ALPHA</p>
-<table class="style4">
+<table class="indent">
 				<tr>
 								<td class="ctr_thinbord">31:24</td>
 								<td class="ctr_thinbord">23:21</td>
@@ -612,6 +651,543 @@ components, not including the alpha component.&nbsp; (It is specified in the
 code with one subtracted.)</p>
 <p class="note">NOTE:&nbsp; The alpha only color space uses this to specify the total number 
 of alpha bits.</p>
+<hr />
+<p class="Header1">Examples</p>
+<p class="Code_Header_3">OCDFMT_RGB16</p>
+<p class="indent">little-endian, 16-bit register</p>
+<table class="indent">
+				<tr>
+								<td class="ctr_thinbord">15</td>
+								<td class="ctr_thinbord">14</td>
+								<td class="ctr_thinbord">13</td>
+								<td class="ctr_thinbord">12</td>
+								<td class="ctr_thinbord">11</td>
+								<td class="ctr_thinbord">10</td>
+								<td class="ctr_thinbord"><span class="white">0</span>9</td>
+								<td class="ctr_thinbord"><span class="white">0</span>8</td>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+				</tr>
+</table>
+<p class="indent">in memory, byte order</p>
+<table class="indent">
+				<tr>
+								<td>addr:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+				</tr>
+</table>
+								</td>
+								<td><span class="white">_</span>addr+1:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+				</tr>
+</table>
+								</td>
+				</tr>
+</table>
+<p class="Code_Header_3">OCDFMT_RGB24</p>
+<p class="indent">in memory, byte order</p>
+<table class="indent">
+				<tr>
+								<td>addr:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+				</tr>
+</table>
+								</td>
+								<td><span class="white">_</span>addr+1:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+				</tr>
+</table>
+								</td>
+								<td>
+<span class="white">_</span>addr+2</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+				</tr>
+</table>
+								</td>
+				</tr>
+</table>
+<p class="Code_Header_3">OCDFMT_RGBA24</p>
+<p class="indent">in memory, byte order</p>
+<table class="indent">
+				<tr>
+								<td>addr:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+				</tr>
+</table>
+								</td>
+								<td><span class="white">_</span>addr+1:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+				</tr>
+</table>
+								</td>
+								<td>
+<span class="white">_</span>addr+2</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+				</tr>
+</table>
+								</td>
+								<td>
+<span class="white">_</span>addr+3:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+				</tr>
+</table>
+								</td>
+				</tr>
+</table>
+<p class="indent">little-endian, 32-bit register</p>
+<table class="indent">
+				<tr>
+								<td class="ctr_thinbord">31</td>
+								<td class="ctr_thinbord">30</td>
+								<td class="ctr_thinbord">29</td>
+								<td class="ctr_thinbord">28</td>
+								<td class="ctr_thinbord">27</td>
+								<td class="ctr_thinbord">26</td>
+								<td class="ctr_thinbord">25</td>
+								<td class="ctr_thinbord">24</td>
+								<td class="ctr_thinbord">23</td>
+								<td class="ctr_thinbord">22</td>
+								<td class="ctr_thinbord">21</td>
+								<td class="ctr_thinbord">20</td>
+								<td class="ctr_thinbord">19</td>
+								<td class="ctr_thinbord">18</td>
+								<td class="ctr_thinbord">17</td>
+								<td class="ctr_thinbord">16</td>
+								<td class="ctr_thinbord">15</td>
+								<td class="ctr_thinbord">14</td>
+								<td class="ctr_thinbord">13</td>
+								<td class="ctr_thinbord">12</td>
+								<td class="ctr_thinbord">11</td>
+								<td class="ctr_thinbord">10</td>
+								<td class="ctr_thinbord"><span class="white">0</span>9</td>
+								<td class="ctr_thinbord"><span class="white">0</span>8</td>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_alf_ctr_bord">a</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_blu_ctr_bord">b</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_grn_ctr_bord">g</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+								<td class="tbl_red_ctr_bord">r</td>
+				</tr>
+</table>
+<p class="Code_Header_3">OCDFMT_UYVY</p>
+<p class="indent">in memory, byte order</p>
+<table class="indent">
+				<tr>
+								<td>addr:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+				</tr>
+</table>
+								</td>
+								<td><span class="white">_</span>addr+1:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+				</tr>
+</table>
+								</td>
+								<td>
+<span class="white">_</span>addr+2</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+				</tr>
+</table>
+								</td>
+								<td>
+<span class="white">_</span>addr+3:</td>
+								<td>
+<table>
+				<tr>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+				</tr>
+</table>
+								</td>
+				</tr>
+</table>
+<p class="indent">little-endian, 32-bit register</p>
+<table class="indent">
+				<tr>
+								<td class="ctr_thinbord">31</td>
+								<td class="ctr_thinbord">30</td>
+								<td class="ctr_thinbord">29</td>
+								<td class="ctr_thinbord">28</td>
+								<td class="ctr_thinbord">27</td>
+								<td class="ctr_thinbord">26</td>
+								<td class="ctr_thinbord">25</td>
+								<td class="ctr_thinbord">24</td>
+								<td class="ctr_thinbord">23</td>
+								<td class="ctr_thinbord">22</td>
+								<td class="ctr_thinbord">21</td>
+								<td class="ctr_thinbord">20</td>
+								<td class="ctr_thinbord">19</td>
+								<td class="ctr_thinbord">18</td>
+								<td class="ctr_thinbord">17</td>
+								<td class="ctr_thinbord">16</td>
+								<td class="ctr_thinbord">15</td>
+								<td class="ctr_thinbord">14</td>
+								<td class="ctr_thinbord">13</td>
+								<td class="ctr_thinbord">12</td>
+								<td class="ctr_thinbord">11</td>
+								<td class="ctr_thinbord">10</td>
+								<td class="ctr_thinbord"><span class="white">0</span>9</td>
+								<td class="ctr_thinbord"><span class="white">0</span>8</td>
+								<td class="ctr_thinbord"><span class="white">0</span>7</td>
+								<td class="ctr_thinbord"><span class="white">0</span>6</td>
+								<td class="ctr_thinbord"><span class="white">0</span>5</td>
+								<td class="ctr_thinbord"><span class="white">0</span>4</td>
+								<td class="ctr_thinbord"><span class="white">0</span>3</td>
+								<td class="ctr_thinbord"><span class="white">0</span>2</td>
+								<td class="ctr_thinbord"><span class="white">0</span>1</td>
+								<td class="ctr_thinbord"><span class="white">0</span>0</td>
+				</tr>
+				<tr>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_y_ctr_bord">y1</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_v_ctr_bord">v</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_y_ctr_bord">y0</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+								<td class="tbl_u_ctr_bord">u</td>
+				</tr>
+</table>
 </body>
 
 </html>
